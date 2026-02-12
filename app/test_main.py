@@ -1,37 +1,58 @@
+import pytest
+
 from app.main import get_human_age
 
 
-def test_check_number_of_arguments_that_are_returned() -> None:
-    assert get_human_age(0, 0) == [0, 0]
+@pytest.mark.parametrize(
+    "cat_age, dog_age, human_age",
+    [
+        (0, 0, [0, 0]),
+        (14, 14, [0, 0]),
+        (15, 15, [1, 1]),
+        (23, 23, [1, 1]),
+        (24, 24, [2, 2]),
+        (27, 27, [2, 2]),
+        (28, 28, [3, 2]),
+        (100, 100, [21, 17]),
+        (75, 50, [14, 7])
+    ],
+    ids=[
+        "Test check number of arguments that are returned",
+        "Test return value of first human year",
+        "Test return value of second_human year if input values is 15",
+        "Test return value of third_human year if input values is 23",
+        "Test return value of third_human year if input values is 24",
+        "Test return value of human_year if input values is 27",
+        "Test should fourth human year for cat third human year for dog",
+        "Test return value of human_year if input values is 100",
+        "Test return value of human_year if input values is different"
+    ]
+)
+def test_check_human_age_that_are_returned(
+        cat_age: int,
+        dog_age: int,
+        human_age: list
+) -> None:
+    assert (get_human_age(cat_age, dog_age) == human_age), \
+        (f"Human age for cat age {cat_age} should be equal to {human_age[0]}, "
+         f"human age for dog age {dog_age} should be equal to {human_age[1]}")
 
 
-def test_return_value_of_first_human_year() -> None:
-    assert get_human_age(14, 14) == [0, 0]
-
-
-def test_return_value_of_second_human_year_if_input_values_is_15() -> None:
-    assert get_human_age(15, 15) == [1, 1]
-
-
-def test_return_value_of_second_human_year_if_input_values_is_23() -> None:
-    assert get_human_age(23, 23) == [1, 1]
-
-
-def test_return_value_of_third_human_year_if_input_values_is_24() -> None:
-    assert get_human_age(24, 24) == [2, 2]
-
-
-def test_return_value_of_third_human_year_if_input_values_is_27() -> None:
-    assert get_human_age(27, 27) == [2, 2]
-
-
-def test_should_fourth_human_year_for_cat_third_human_year_for_dog() -> None:
-    assert get_human_age(28, 28) == [3, 2]
-
-
-def test_return_value_of_human_year_if_input_values_is_100() -> None:
-    assert get_human_age(100, 100) == [21, 17]
-
-
-def test_return_none_if_input_data_is_incorrect() -> None:
-    assert get_human_age(-2, -5) == [None, None]
+@pytest.mark.parametrize(
+    "cat_age, dog_age, expected_error",
+    [
+        ("6", "18", TypeError),
+        (-2, -5, ValueError)
+    ],
+    ids=[
+        "Should raise error if input incorrect type of input data",
+        "Should raise error if input incorrect value of input data"
+    ]
+)
+def test_raising_errors(
+        cat_age: int,
+        dog_age: int,
+        expected_error: TypeError | ValueError
+) -> None:
+    with pytest.raises(expected_error):
+        get_human_age(cat_age, dog_age)
