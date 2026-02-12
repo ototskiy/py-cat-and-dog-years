@@ -13,6 +13,7 @@ from app.main import get_human_age
         (24, 24, [2, 2]),
         (27, 27, [2, 2]),
         (28, 28, [3, 2]),
+        (29, 29, [3, 3]),
         (100, 100, [21, 17]),
         (75, 50, [14, 7])
     ],
@@ -23,7 +24,8 @@ from app.main import get_human_age
         "Test return value of third_human year if input values is 23",
         "Test return value of third_human year if input values is 24",
         "Test return value of human_year if input values is 27",
-        "Test should fourth human year for cat third human year for dog",
+        "Test return fourth human year for and cat third human year for dog",
+        "Test return value of human_year if input values is 29",
         "Test return value of human_year if input values is 100",
         "Test return value of human_year if input values is different"
     ]
@@ -42,9 +44,17 @@ def test_check_human_age_that_are_returned(
     "cat_age, dog_age, expected_error",
     [
         ("6", "18", TypeError),
+        (3.5, 4.5, TypeError),
+        (None, None, TypeError),
+        ([], [5], TypeError),
+        ({16}, {}, TypeError),
         (-2, -5, ValueError)
     ],
     ids=[
+        "Should raise error if input incorrect type of input data",
+        "Should raise error if input incorrect type of input data",
+        "Should raise error if input incorrect type of input data",
+        "Should raise error if input incorrect type of input data",
         "Should raise error if input incorrect type of input data",
         "Should raise error if input incorrect value of input data"
     ]
